@@ -97,21 +97,13 @@ public class GestionAlertasImpl extends GestionAlertasIntPOA {
 	}
 
 	public boolean enviarIndicadores(int numHabitacion, int frecuenciaCardiaca) {
+		System.out.println("bandera");
 		float edad = 0;
 		int habitacion = 0;
 		servidorDeAlertas.sop_corba.PacienteCllbckInt pacCllbck = null;
 		boolean estado = false;
-
-		for (int i = 0; i < ListaPacientes.size(); i++) {
-			if (ListaPacientes.get(i).numeroHabitacion == numHabitacion) {
-				habitacion = ListaPacientes.get(i).numeroHabitacion;
-				edad = ListaPacientes.get(i).edad;
-				posPaciente = i;
-				break;
-			}
-		}
-
-		if (edad >= 13 && edad < 16) {
+		
+		if (HMPacientes.get(numHabitacion).edad >= 13 && HMPacientes.get(numHabitacion).edad < 16) {
 			if (frecuenciaCardiaca < 70 || frecuenciaCardiaca > 80) {
 				System.out.println("--------------------------------------------------------------------------");
 				System.out.println("El Adolecente tiene una falla en su frecuencia cardiaca enviando la alerta");
@@ -128,7 +120,7 @@ public class GestionAlertasImpl extends GestionAlertasIntPOA {
 				referenciaNotificaciones.notificarAlerta(objDatosPaciente, objAlertas);
 				estado = true;
 			}
-		} else if (edad >= 16) {
+		} else if (HMPacientes.get(numHabitacion).edad >= 16) {
 			if (frecuenciaCardiaca < 60 || frecuenciaCardiaca > 80) {
 				System.out.println("----------------------------------------------------------------------");
 				System.out.println("El Adulto tiene una falla en su frecuencia cardiaca enviando la alerta");

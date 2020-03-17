@@ -76,8 +76,8 @@ public class ClienteDeObjetos {
                         PacienteDTO nuevoPaciente = new PacienteDTO(nombres, apellidos, noHabitacion, edad, href1);
                         PacienteCllbckImpl cb = new PacienteCllbckImpl();
                         int frecuenciaCardiaca = 0;
-                        boolean bandera = refPacientes.registrarPaciente(nuevoPaciente);
-                        if (bandera) {
+                        boolean estaRegistrado = refPacientes.registrarPaciente(nuevoPaciente);
+                        if (estaRegistrado) {
                             System.out.println("Paciente registrado con exito.");
                             System.out.println(" Digite la frecuencia cardiaca del paciente: ");
                             frecuenciaCardiaca = UtilConsolaCliente.leerEntero();
