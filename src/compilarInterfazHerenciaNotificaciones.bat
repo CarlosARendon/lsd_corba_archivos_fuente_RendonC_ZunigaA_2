@@ -1,0 +1,1 @@
+idlj -fall -pkgPrefix sop_corba servidorDeNotificaciones notificaciones2.idl

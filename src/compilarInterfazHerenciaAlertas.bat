@@ -1,0 +1,1 @@
+idlj -fall -pkgPrefix sop_corba servidorDeAlertas gestionusuarios3.idl

@@ -1,0 +1,12 @@
+module sop_corba{
+  interface GestionPacientes{
+	struct pacienteDTO{
+		string nombre;
+		string apellido;
+		long numeroHabitacion;
+		long edad;
+	};
+  void registrarPaciente(in pacienteDTO objPacienteo,out boolean resultado);
+  boolean buscarPaciente(in long numeroHabitacion,out pacienteDTO objPacienteResultado);
+  };
+};

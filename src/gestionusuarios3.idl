@@ -1,0 +1,16 @@
+module sop_corba{
+ interface PacienteCllbckInt{
+	void notificar(in long numeroHabitacion,in long frecCardiaca);
+ };
+ struct PacienteDTO{
+	 string nombre;
+	 string apellido;
+	 long numeroHabitacion;
+	 float edad;
+	 PacienteCllbckInt pacbck;
+ };
+ interface GestionAlertasInt{
+	 boolean registrarPaciente(in PacienteDTO pacientedto);
+	 boolean enviarIndicadores(in long numHabitacion,in long frecuenciaCardiaca) ;
+ };
+};
