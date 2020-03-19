@@ -43,7 +43,9 @@ public class ServidorDeObjetos {
       NameComponent path[] = ncref.to_name( name );
       ncref.rebind(path, href);
 
-      System.out.println("El Servidor de Alertas esta listo y esperando ...");
+      System.out.println("---------------------------------------------------");
+      System.out.println(">> El Servidor de Alertas esta listo y esperando <<");
+      System.out.println("---------------------------------------------------");
 		
 	  
       // esperan por las invocaciones desde los clientes

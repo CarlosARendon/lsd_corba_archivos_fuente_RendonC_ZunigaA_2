@@ -76,8 +76,8 @@ public class ClienteDeObjetos {
                         System.out.println("Digite los apellidos del paciente: ");
                         apellidos = UtilConsolaCliente.leerCadena();
 
-                        System.out.println("Edad del paciente: ");
-                        edad = UtilConsolaCliente.leerEdad();
+                        System.out.println("Fecha de nacimiento: ");
+                        edad = UtilConsolaCliente.leerFechaNaciemiento();
 
                         // Objeto paciente con la estructura de sus datos basicos
                         PacienteDTO nuevoPaciente = new PacienteDTO(nombres, apellidos, noHabitacion, edad, href1);
