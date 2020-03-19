@@ -12,6 +12,7 @@ import servidorDeNotificaciones.sop_corba.GestionNotificacionesOperations;
 import servidorDeNotificaciones.sop_corba.GestionNotificacionesPackage.*;
 import servidorDeNotificaciones.sop_corba.*;
 import servidorDeNotificaciones.servidor.*;
+import servidorDeAlertas.utilidades.*;
 
 public class GestionAlertasImpl extends GestionAlertasIntPOA {
 	// Con hashmap
@@ -32,7 +33,7 @@ public class GestionAlertasImpl extends GestionAlertasIntPOA {
 		HMPacientes = new HashMap<>();
 	}
 
-	//REGISTRAR PACIENTE
+	// REGISTRAR PACIENTE
 	public boolean registrarPaciente(servidorDeAlertas.sop_corba.PacienteDTO PacienteDTO) {
 		boolean resultado = true;
 		System.out.println("-----------------------");
@@ -64,11 +65,11 @@ public class GestionAlertasImpl extends GestionAlertasIntPOA {
 		return resultado;
 	}
 
-	//BUSCAR PACIENTE
+	// BUSCAR PACIENTE
 	public boolean buscarPaciente(int numeroHabitacion, PacienteDTOHolder objPacienteBuscado) {
 		System.out.println("--------------------");
 		System.out.println("Buscando Paciente...");
-		
+
 		boolean siEsta = false;
 		objPacienteBuscado.value = new PacienteDTO("", "", 0, 0, null);
 
@@ -84,13 +85,31 @@ public class GestionAlertasImpl extends GestionAlertasIntPOA {
 		PacienteDTO objPaciente;
 	}
 
-	//ENVIAR INDICADORES PACIENTE
+	// ENVIAR INDICADORES PACIENTE
 	public boolean enviarIndicadores(int numHabitacion, int frecuenciaCardiaca) {
-		//System.out.println("bandera");
-		float edad = 0;
-		int habitacion = 0;
+		IndicadoresMedicos objIndicMed = new IndicadoresMedicos();
 		servidorDeAlertas.sop_corba.PacienteCllbckInt pacCllbck = null;
 		boolean estado = false;
+
+		if (objIndicMed.evaluarIndicadores(HMPacientes.get(numHabitacion).edad, frecuenciaCardiaca, 70, 50, 25, 20, 60)) {
+			System.out.println("--------------------------------------------------------------------------");
+			System.out.println("El paciente tiene una falla en su frecuencia cardiaca enviando la alerta");
+			// REALIZA CALLBACK
+			HMPacientes.get(numHabitacion).pacbck.notificar(numHabitacion, frecuenciaCardiaca);
+			objDatosPaciente = new ClsMensajeNotificacionDTO(HMPacientes.get(numHabitacion).nombre,
+						HMPacientes.get(numHabitacion).apellido, HMPacientes.get(numHabitacion).numeroHabitacion, 1);
+			// Objeto con los datos de la alerta
+			objAlertas = new ClsMensajeAlertaDTO(frecuenciaCardiaca);
+			// Invocación del metodo para enviar la alerta del paciente 
+			//con sus datos y los indicadores al servidor de notificaciones
+			referenciaNotificaciones.notificarAlerta(objDatosPaciente, objAlertas);
+			estado = true;
+		}
+		/*
+		float edad = 0;
+		int habitacion = 0;
+
+		
 
 		if (HMPacientes.get(numHabitacion).edad >= 13 && HMPacientes.get(numHabitacion).edad < 16) {
 			if (frecuenciaCardiaca < 70 || frecuenciaCardiaca > 80) {
@@ -129,9 +148,54 @@ public class GestionAlertasImpl extends GestionAlertasIntPOA {
 				estado = true;
 			}
 		}
-
+		*/
 		return estado;
 	}
+	/*
+	 * public boolean enviarIndicadores(int numHabitacion, int frecuenciaCardiaca) {
+	 * //System.out.println("bandera"); float edad = 0; int habitacion = 0;
+	 * servidorDeAlertas.sop_corba.PacienteCllbckInt pacCllbck = null; boolean
+	 * estado = false;
+	 * 
+	 * if (HMPacientes.get(numHabitacion).edad >= 13 &&
+	 * HMPacientes.get(numHabitacion).edad < 16) { if (frecuenciaCardiaca < 70 ||
+	 * frecuenciaCardiaca > 80) { System.out.println(
+	 * "--------------------------------------------------------------------------")
+	 * ; System.out.
+	 * println("El Adolecente tiene una falla en su frecuencia cardiaca enviando la alerta"
+	 * ); // REALIZA CALLBACK
+	 * HMPacientes.get(numHabitacion).pacbck.notificar(numHabitacion,
+	 * frecuenciaCardiaca); //
+	 * ListaPacientes.get(posPaciente).pacbck.notificar(habitacion, //
+	 * frecuenciaCardiaca); // REALIZA ENVIO DE ALERTAS // Objeto con los datos del
+	 * paciente objDatosPaciente = new
+	 * ClsMensajeNotificacionDTO(HMPacientes.get(numHabitacion).nombre,
+	 * HMPacientes.get(numHabitacion).apellido,
+	 * HMPacientes.get(numHabitacion).numeroHabitacion, 1); // Objeto con los datos
+	 * de la alerta objAlertas = new ClsMensajeAlertaDTO(frecuenciaCardiaca); //
+	 * Invocación de la alerta del paciente con sus datos y los indicadores
+	 * referenciaNotificaciones.notificarAlerta(objDatosPaciente, objAlertas);
+	 * estado = true; } } else if (HMPacientes.get(numHabitacion).edad >= 16) { if
+	 * (frecuenciaCardiaca < 60 || frecuenciaCardiaca > 80) { System.out.println(
+	 * "----------------------------------------------------------------------");
+	 * System.out.
+	 * println("El Adulto tiene una falla en su frecuencia cardiaca enviando la alerta"
+	 * ); // REALIZA CALLBACK
+	 * HMPacientes.get(numHabitacion).pacbck.notificar(numHabitacion,
+	 * frecuenciaCardiaca); //
+	 * ListaPacientes.get(posPaciente).pacbck.notificar(habitacion, //
+	 * frecuenciaCardiaca); // REALIZA ENVIO DE ALERTAS // Objeto con los datos del
+	 * paciente objDatosPaciente = new
+	 * ClsMensajeNotificacionDTO(HMPacientes.get(numHabitacion).nombre,
+	 * HMPacientes.get(numHabitacion).apellido,
+	 * HMPacientes.get(numHabitacion).numeroHabitacion, 1); // Objeto con los datos
+	 * de la alerta objAlertas = new ClsMensajeAlertaDTO(frecuenciaCardiaca); //
+	 * Invocación de la alerta del paciente con sus datos y los indicadores
+	 * referenciaNotificaciones.notificarAlerta(objDatosPaciente, objAlertas);
+	 * estado = true; } }
+	 * 
+	 * return estado; }
+	 */
 
 	public void obtenerLaRefRemotaDelServDeNotificaciones(String direccionIPNS, String puertoNS) {
 		try {

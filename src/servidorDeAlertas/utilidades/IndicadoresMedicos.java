@@ -9,7 +9,7 @@ package servidorDeAlertas.utilidades;
  *
  * @author Andrés Zúñiga Garzón -- hazgarzon@gmail.com
  */
-public class IndicadoresMedicosS {
+public class IndicadoresMedicos {
     
     //True indica que existe un resultado anormal - false que esta bien
     private boolean estado;
@@ -19,7 +19,7 @@ public class IndicadoresMedicosS {
             pArtDiastolicaMin, pArtDiastolicaMax, freRespitariaMin, freRespiratoriaMax,
             temperaturaMin, temperaturaMax, satOxigenoMin, satOxigenoMax;
     
-    public IndicadoresMedicosS() {
+    public IndicadoresMedicos() {
         this.estado = false;
         this.freCardicaMin = 50;
         this.freCardiacaMax = 100;
