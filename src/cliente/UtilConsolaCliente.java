@@ -10,12 +10,13 @@ public class UtilConsolaCliente {
 		boolean valido = false;
 		do {
 			try {
-				System.out.println("Ingrese la opcion: ");
+				System.out.print("==> ");
 				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 				linea = br.readLine();
 				opcion = Integer.parseInt(linea);
 				valido = true;
 			} catch (Exception e) {
+				System.out.println("--------------------");
 				System.out.println("Error intente nuevamente...");
 				valido = false;
 			}
@@ -38,10 +39,12 @@ public class UtilConsolaCliente {
 				if (numHab >= 100 && numHab < 1000) {
 					valido = true;
 				} else {
+					System.out.println("--------------------");
 					System.out.println("==> Error, ingrese un numero entre 100 y 999 <==");
 					valido = false;
 				}
 			} catch (Exception e) {
+				System.out.println("--------------------");
 				System.out.println("==> Error, ingrese un numero de habitacion valido <==");
 				valido = false;
 			}
@@ -61,7 +64,7 @@ public class UtilConsolaCliente {
 		float edad = 0;
 		boolean valido = false;
 		do {
-			System.out.println("El paciente es menor de 1 anio? S/N");
+			System.out.println("El paciente es menor de 12 meses? S/N");
 			//opc = leerCadena();
 			if (leerCadena().equalsIgnoreCase("s")) {
 				try {
@@ -76,10 +79,12 @@ public class UtilConsolaCliente {
 					if (edad > 0 && edad <= 1) {
 						valido = true;
 					} else {
+						System.out.println("--------------------");
 						System.out.println("==> Error, ingrese un valor entre 0 y 52 <==");
 						valido = false;
 					}
 				} catch (Exception e) {
+					System.out.println("--------------------");
 					System.out.println("==> Error, ingrese un valor para la edad valido <==");
 					valido = false;
 				}
@@ -90,13 +95,16 @@ public class UtilConsolaCliente {
 					BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 					linea = br.readLine();
 					edad = Float.parseFloat(linea);
+					//System.out.println("Imprimiendo edad: " +edad);
 					if (edad > 0 && edad <= 120) {
 						valido = true;
 					} else {
+						System.out.println("--------------------");
 						System.out.println("==> Error, ingrese un valor entre 0 y 120 <==");
 						valido = false;
 					}
 				} catch (Exception e) {
+					System.out.println("--------------------");
 					System.out.println("==> Error, ingrese un valor para la edad valido <==");
 					valido = false;
 				}
@@ -113,11 +121,12 @@ public class UtilConsolaCliente {
 		boolean valido = false;
 		do {
 			try {
-				System.out.println("Ingrese la opcion: ");
+				System.out.print("==> ");
 				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 				linea = br.readLine();
 				valido = true;
 			} catch (Exception e) {
+				System.out.println("--------------------");
 				System.out.println("Error intente nuevamente...");
 				valido = false;
 			}

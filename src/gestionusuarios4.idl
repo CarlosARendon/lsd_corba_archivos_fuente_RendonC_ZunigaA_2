@@ -11,7 +11,7 @@ module sop_corba{
  };
  interface GestionAlertasInt{
 	boolean registrarPaciente(in PacienteDTO pacientedto);
-	PacienteDTO buscarPaciente(in long numeroHabitacion);
+	boolean buscarPaciente(in long numeroHabitacion, out PacienteDTO objPacienteResultado);
 	void modificarPaciente(in long numeroHabitacion);
 	boolean enviarIndicadores(in long numHabitacion,in long frecuenciaCardiaca);
  };

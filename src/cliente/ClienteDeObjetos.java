@@ -14,7 +14,7 @@ import servidorDeAlertas.sop_corba.PacienteDTO;
 import servidorDeAlertas.sop_corba.PacienteDTOHolder;
 
 public class ClienteDeObjetos {
-    // *** Atributo estático quecontrola los metodos en el servidor de alertas ***
+    // *** Atributo estático que controla los metodos en el servidor de alertas ***
     static GestionAlertasInt refPacientes;
 
     public static void main(String args[]) {
@@ -23,7 +23,7 @@ public class ClienteDeObjetos {
             String[] v = new String[4];
 
             if (args.length != 4) {
-                System.out.println("Debes especificar todos los argumentos");
+                //System.out.println("Debes especificar todos los argumentos");
                 return;
             }
             v[0] = args[0];
@@ -52,6 +52,12 @@ public class ClienteDeObjetos {
             refPacientes = GestionAlertasIntHelper.narrow(ncRef.resolve_str(name));
 
             System.out.println("Obtenido el manejador sobre el servidor de objetos: " + refPacientes);
+
+            int noHabitacion;
+            String nombres;
+            String apellidos;
+            float edad;
+
             int rta = 0;
             do {
                 rta = menu();
@@ -59,29 +65,33 @@ public class ClienteDeObjetos {
                 switch (rta) {
                     case 1:
 
-                        System.out.println(" === Registro del Paciente ===");
+                        System.out.println("=== Registro del Paciente ===");
 
                         // System.out.println(" Digite el numero de la habitacion del paciente: ");
-                        int noHabitacion = UtilConsolaCliente.leerHabitacion();
+                        noHabitacion = UtilConsolaCliente.leerHabitacion();
 
-                        System.out.println(" Digite los nombres del paciente: ");
-                        String nombres = UtilConsolaCliente.leerCadena();
+                        System.out.println("Digite los nombres del paciente: ");
+                        nombres = UtilConsolaCliente.leerCadena();
 
-                        System.out.println(" Digite los apellidos del paciente: ");
-                        String apellidos = UtilConsolaCliente.leerCadena();
+                        System.out.println("Digite los apellidos del paciente: ");
+                        apellidos = UtilConsolaCliente.leerCadena();
 
-                        System.out.println(" Digite la edad del paciente: ");
-                        float edad = UtilConsolaCliente.leerEdad();
+                        System.out.println("Edad del paciente: ");
+                        edad = UtilConsolaCliente.leerEdad();
 
+                        // Objeto paciente con la estructura de sus datos basicos
                         PacienteDTO nuevoPaciente = new PacienteDTO(nombres, apellidos, noHabitacion, edad, href1);
+                        // Objeto que s ecrea para enviarlo como una referencia para elregistro del
+                        // paciente
                         PacienteCllbckImpl cb = new PacienteCllbckImpl();
                         int frecuenciaCardiaca = 0;
                         boolean estaRegistrado = refPacientes.registrarPaciente(nuevoPaciente);
                         if (estaRegistrado) {
+                            System.out.println("------------------------------");
                             System.out.println("Paciente registrado con exito.");
-                            System.out.println(" Digite la frecuencia cardiaca del paciente: ");
+                            System.out.println("--------------------------------------------");
+                            System.out.println("Digite la frecuencia cardiaca del paciente: ");
                             frecuenciaCardiaca = UtilConsolaCliente.leerEntero();
-                            // System.out.println(refPacientes.enviarIndicadores(noHabitacion,frecuenciaCardiaca));
                             refPacientes.enviarIndicadores(noHabitacion, frecuenciaCardiaca);
                         } else {
                             System.out.println(
@@ -90,6 +100,15 @@ public class ClienteDeObjetos {
 
                         break;
                     case 2:
+                        System.out.print("Para buscar ");
+                        noHabitacion = UtilConsolaCliente.leerHabitacion();
+                        PacienteDTOHolder pacienteBuscado = new PacienteDTOHolder();
+                        boolean flag = refPacientes.buscarPaciente(noHabitacion, pacienteBuscado);
+                        if (flag) {
+                            mostrarPaciente(pacienteBuscado);
+                        } else {
+                            System.out.println("No se ha encontrado el paciente");
+                        }
                         break;
                     case 3:
                         break;
@@ -116,15 +135,26 @@ public class ClienteDeObjetos {
 
     }
 
-    public static void mostrarVector(String[] vectorEvaludores) {
+    /*
+     * public static void mostrarVector(String[] vectorEvaludores) {
+     * 
+     * if (vectorEvaludores != null) { for (int i = 0; i < vectorEvaludores.length;
+     * i++) { System.out.println("Evaluador #" + (i + 1) + ": " +
+     * vectorEvaludores[i]); } } else {
+     * System.out.println("No hay anteproyectos registrados"); }
+     * 
+     * }
+     */
 
-        if (vectorEvaludores != null) {
-            for (int i = 0; i < vectorEvaludores.length; i++) {
-                System.out.println("Evaluador #" + (i + 1) + ": " + vectorEvaludores[i]);
-            }
-        } else {
-            System.out.println("No hay anteproyectos registrados");
-        }
+    public static void mostrarPaciente(PacienteDTOHolder paciente) {
+
+        PacienteDTO pacienteEncontado = paciente.value;
+        System.out.println(" ==== Paciente Encontrado ====");
+        System.out.println("Numero de habitacion: " + pacienteEncontado.numeroHabitacion);
+        System.out.println("Nombre: " + pacienteEncontado.nombre);
+        System.out.println("Apellido: " + pacienteEncontado.apellido);
+        System.out.println("Edad: " + pacienteEncontado.edad);
+        System.out.println(" =============================");
 
     }
 

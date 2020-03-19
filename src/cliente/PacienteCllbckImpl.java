@@ -13,6 +13,6 @@ public class PacienteCllbckImpl extends PacienteCllbckIntPOA{
 
 	@Override
 	public void notificar(int numeroHabitacion, int frecCardiaca) {
-		System.out.println("El paciente en la habitación "+numeroHabitacion+" tiene una frecuencia Cardiaca anormal con un valor de "+frecCardiaca);
+		System.out.println("El paciente en la habitacion "+numeroHabitacion+" tiene una frecuencia Cardiaca anormal con un valor de "+frecCardiaca);
 	}
 }
